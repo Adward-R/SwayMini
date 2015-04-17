@@ -12,8 +12,20 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+STATICFILES_DIRS = (
+#    str(os.path.dirname(os.path.dirname(__file__)))+'/static/',
+    '/Users/Adward/Github/SwayMini/djcode/djcode/static/',
+)
 
-# Quick-start development settings - unsuitable for production
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+#   str(os.path.abspath(__file__).join('templates')),
+    '/Users/Adward/Github/SwayMini/djcode/djcode/templates/',
+)
+
+# Quick start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!

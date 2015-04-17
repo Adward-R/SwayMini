@@ -2,9 +2,9 @@
 <html>
 <head>
     <title>Bootstrap Instance</title>
-    <link href="../SwayMini/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../SwayMini/js/jquery.min.js"></script>
-    <script src="../SwayMini/js/bootstrap.min.js"></script>
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
 </head>
 <class>
 
@@ -104,6 +104,26 @@
         $("#myModal").modal({backdrop:true},{keyboard:true});
     }
     function writeContent() {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else {
+            // code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        /*xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+            }
+        }*/
+        xmlhttp.open("POST","../hello",true);
+        //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        var postMessage = "changedRegion=" + box_clicked;
+        xmlhttp.send(postMessage);
+
         var box_content = document.getElementById("modal_content").value;
         if (box_content==''||box_content==' '){}
         else {box_clicked.innerHTML = box_content;}
