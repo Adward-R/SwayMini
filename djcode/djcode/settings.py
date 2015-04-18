@@ -13,8 +13,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 STATICFILES_DIRS = (
-#    str(os.path.dirname(os.path.dirname(__file__)))+'/static/',
-    '/Users/Adward/Github/SwayMini/djcode/djcode/static/',
+    str(os.path.dirname(__file__))+'/static/',
+#    '/Users/Adward/Github/SwayMini/djcode/djcode/static/',
 )
 
 TEMPLATE_DIRS = (
@@ -22,7 +22,8 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 #   str(os.path.abspath(__file__).join('templates'))
-    '/Users/Adward/Github/SwayMini/djcode/djcode/templates/',
+    #'/Users/Adward/Github/SwayMini/djcode/djcode/templates/',
+    str(os.path.dirname(__file__))+'/templates/',
 )
 
 # Quick start development settings - unsuitable for production
@@ -53,7 +54,7 @@ INSTALLED_APPS = (
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',

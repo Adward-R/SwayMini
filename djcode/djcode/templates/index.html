@@ -6,6 +6,7 @@
     <script src="../static/js/jquery.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
 </head>
+<body>
 <class>
 
 <div class="container">
@@ -95,6 +96,10 @@
 </body>
 </html>
 
+
+<script src="../static/js/jquery.cookie.js"></script>
+<script src="../static/js/csrftoken.js"></script>
+
 <script>
     var box_clicked = null;
 
@@ -120,8 +125,10 @@
             }
         }*/
         xmlhttp.open("POST","../hello",true);
-        //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-        var postMessage = "changedRegion=" + box_clicked;
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        //var postMessage = "changedRegion=" + box_clicked.innerHTML;
+        //console.log(document.body.innerHTML.toJSON());
+        var postMessage = "changedRegion=" + document.body.innerHTML;
         xmlhttp.send(postMessage);
 
         var box_content = document.getElementById("modal_content").value;
