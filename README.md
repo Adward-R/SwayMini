@@ -6,19 +6,32 @@
 # 1. 引言
 
 # 2. 总体设计
+
 ## 2.1 需求规定
 - 对于多种手机屏幕尺寸的适配
+
 ## 2.2 运行环境
+
 ## 2.3 体系架构
+
 ### 2.3.1 逻辑架构
 本B/S体系软件在逻辑（或者开发分工）上可以简单分为前端和后端：
 
-	- 前端（Browser）：HTML 5, Bootstrap 3, jQuery, JavaScript
-	- 后端（Server）：Python 2.7.9, Django 1.8
+- 前端（Browser）：HTML 5, Bootstrap 3, jQuery, JavaScript
+- 后端（Server）：Python 2.7.9, Django 1.8
 
 ### 2.3.2 功能架构
-- url
-- 界面概略图
+本B/S体系软件的功能架构应用了MVC Design Pattern，主要体现在Django使用URL匹配响应Browser端请求、使用view或者app中的函数在Server端处理请求；可以把URL系统定义的各个用户操作映射到view函数提供的各项功能。各个URL Pattern还附带通过GET、POST请求和Ajax异步通信的手段，将文档中的全局变量作为参数传递给后端的请求处理函数。
+
+- `http://domain.com/`：欢迎和登录界面
+- `http://domain.com/home`：登录成功后的主引导面板
+- `http://domain.com/login_error`：登录错误信息
+- `http://domain.com/edit`：编辑页面的主面板
+- `http://domain.com/upload`：上传图片和流媒体等资源（异步）
+- `http://domain.com/save`：保存更改到服务器端（异步）
+- `http://domain.com/discard`：撤销上次提交后的所有更改
+- `http://domain.com/rollback`：令页面回滚到之前的提交版本
+- `http://domain.com/show/`：允许通过document\_id访问已发布页面
 
 ### 2.3.3 开发架构
 本B/S体系软件的项目层级目录实际上呈现为如下的标准Django Project：
@@ -60,6 +73,7 @@
 
 其中：
 
+ - db.sqlite3：配置中指定的项目数据库，主要用于支持发布时的document\_name到作者的user\_name和编辑时的document\_id页面的索引；
  - Django核心组件：
 	- settings.py 包含了项目的资源路径等关键配置信息；
 	- urls.py 包含了从Browser端访问时的URL匹配规则，即2.3.2部分内容；
@@ -80,17 +94,22 @@
 
 用户操作 | URL | 后端操作 | 前端更动
 ---|---|---|---
-访问开始引导界面|`.../`|通过view渲染模板
+访问开始引导界面|`.../`|通过view渲染模板|
+点击“查看已发布文档”|`.../published`|查询数据库`published`表项，将每一项记录的`doc_name`字段都渲染在页面上，链接指向`.../show/{$doc_name}`|
+点击某个已发布文档的链接|`.../show/{$doc_name}`|后端查询数据库`published`表项得到对应的`user_name`和`doc_id`，以不带导航栏和JS脚本的“发布”选项，渲染`.../users/{$user_name}/{$doc_id}/latest.html`模板|
+直接以链接访问已发布文档的链接|`.../show/{$doc_name}`|后端查询数据库`published`表项，如果存在则同上处理，否则渲染自定义的Django 404页面|
 用户登录|`.../`|查询用户资料数据库判断是否匹配
 登录失败| `.../login_error`|渲染登录错误信息页面
 登录成功| `.../home`|记下`user_name`作为参数，渲染用户主面板的模板，显示“新建”选项和过往存档的可编辑页面列表（从`…/users/user_name/`获取文件夹名字列表）
 选择“新建”|`.../edit/`, POST: `timestamp, user_name`|获取当前的`timestamp`，建立`.../users/{$user_name}/{$timestamp}/`文件夹，并在其中新建一个默认的空白页面模板`latest.html`，然后将其通过view函数渲染到Browser端（包括导航栏和JS脚本）
-选择一个过往的存档进行编辑|`.../edit/`, POST: `user_name, doc_id`|将`.../users/{$user_name}/{$timestamp}/latest.html`作为模板渲染（包括导航栏和JS脚本）
+选择一个过往的存档进行编辑|`.../edit/`, POST: `user_name, doc_id`|将`.../users/{$user_name}/{$timestamp}/latest.html`作为模板渲染（包括导航栏和JS脚本的“编辑”选项）
 （除上传资源外所有编辑页面动作）| `.../edit/`|  | 
 （上传图片）|`.../upload/`, POST: `user_name, doc_id`|获取当前的`timestamp`，把图片文件传到Server端`.../users/{$user_name}/{$doc_id}/{$timestamp}.jpg`保存（或者其他格式）|根据Server端保存的图片资源地址，用JS即时更改Container的HTML代码来引用之 
 点击导航栏的“保存”|Ajax:`.../save/`, POST: `user_name, doc_id, document.innerHTML`|将`.../users/{$user_name}/{$doc_id}/`文件夹下的`latest.html`重命名为`previous.html`，再把接收到的Browser端POST来的页面body代码存储为`latest.html`|将页面除控件和脚本外的body代码发送到后端
 点击导航栏的“撤销”|Ajax:`.../discard/`, POST: `user_name, doc_id`|渲染`.../users/{$user_name}/{$doc_id}/latest.html`|撤销所有未保存更改，显示最新commit版本的页面
-点击导航栏的“回滚”|Ajax:`... /rollback/`, POST: `user_name, doc_id`|将`.../users/{$user_name}/{$doc_id}/`文件夹下的`latest.html`删除，重命名`previous.html`为`latest.html`，渲染`latest.html`模板|显示上一个commit版本的页面
+点击导航栏的“回滚”|Ajax:`... /rollback/`, POST: `user_name, doc_id`|将`.../users/{$user_name}/{$doc_id}/`文件夹下的`latest.html`删除，重命名`previous.html`为`latest.html`，渲染`latest.html`模板|显示上一个commit版本的页面'
+点击导航栏的“发布”|Ajax:`... /publish/`, POST: `user_name, doc_id, doc_name`|在数据库中添加一条`(doc_name, user_name, doc_id)`的记录|提示用户指定doc\_name且不允许与其他发布的页面重名，否则报错
+
 
 ---- 
 # 没想好
