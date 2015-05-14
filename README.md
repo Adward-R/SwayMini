@@ -38,7 +38,7 @@
 	│   │   │   └── bootstrap.min.css
 	│   │   ├── users
 	│   │   │   └── test_user
-	│   │	 │       └── 20150430181015
+	│   │   │       └── 20150430181015
 	│   │   │           ├── latest.html
 	│   │   │           └── previous.html
 	│   │   ├── fonts
@@ -65,6 +65,7 @@
 	- urls.py 包含了从Browser端访问时的URL匹配规则，即2.3.2部分内容；
 	- wsgi.py 包含部署到生产服务器上时的接口module配置（比如mod\_wsgi之于Apache，uwsgi之于Nginx），暂时用不到；
 	- demo\_views.py 包含了Django后端处理不同URL请求时调用的view函数（也可以是其他名字，在urls.py中引用到即可）；
+	
 - templates：view函数通过渲染html模板来呈现网页内容，模板文件夹的位置在settings.py中指定；
 - static：存放日志、用户数据、js、css、字体等静态资源，其位置在settings.py中指定；
 - users：存放用户数据，包括图片、流媒体、文档日志、版本历史等，其中按“用户-\>文档”两层结构分别存放资源，文档以时间戳作唯一标识（文档名用作显示而非存储）；
