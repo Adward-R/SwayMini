@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/base.css" >
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/index.css" >
+</head>
+<body>
+{% if isEditMode %}
+    <nav class="navbar navbar-default" role="navigation">
+        <div>
+        <!--    <ul class="nav navbar-nav navbar-right"  style="margin-right: 0px">
+                <li>
+                    <a href="../search-form" onclick="document.showframe.location.href='../search-form'">Home</a>
+                </li>
+            </ul>  -->
+            <ul class="nav navbar-nav navbar-left">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Doc Operations <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick=docSave()>SAVE</a></li>
+                        <li><a href="#" onclick=docPublish()>PUBLISH</a></li>
+                        <li><a href="#" onclick=docRollback()>ROLLBACK</a></li>
+                        <li><a href="#" onclick=docDelete()>DELETE</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endif %}
+
+    <p id="js_info">Main Body Part of Edit Panel...</p>
+</body>
+</html>
+
+<script>
+    function docSave() {
+        info = document.getElementById("js_info");
+        info.innerHTML = "Saved!";
+    }
+
+    function docPublish() {
+
+    }
+
+    function docRollback() {
+
+    }
+
+    function docDelete() {
+
+    }
+
+</script>
