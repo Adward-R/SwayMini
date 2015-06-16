@@ -33,4 +33,9 @@ urlpatterns = [
     url(r'^edit_panel/', 'TestApp.doc_op.test_edit_panel'), #test page arrangement
     url(r'^edit/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.edit'),
     url(r'^show/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.show'),
+    url(r'^save/(?P<doc_id>[0-9]{11})/$', 'TestApp.doc_op.save'), #one extra doc_id bit for control (last one)
+    url(r'^publish/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.publish'),
+    url(r'^unpublish/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.unpublish'),
+    url(r'^rollback/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.rollback'),
+    url(r'^delete/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.delete'),
 ]

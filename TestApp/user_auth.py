@@ -45,7 +45,7 @@ def signed_in(request):
     else:
         #TODO when login in error occurs
         print("Info provided does not match")
-    #return HttpResponse(str(request.POST))
+    return HttpResponse(str(request.POST))
 
 def signout(request):
     logout(request)
