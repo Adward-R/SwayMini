@@ -1,0 +1,37 @@
+.wrapper{
+	background: url("../img/grow.png");
+	width: 583px;
+	height: 583px;
+	margin: 0 auto;
+	margin-top: 240px;
+	padding-top:2px;
+}
+
+.search_form {
+    background-image: url("../img/barse.png");
+    width: 538px;
+    height: 79px;
+}
+
+input.text_value {
+    width: 370px;
+    height: 55px;
+    border: 0;
+    padding: 0 10px;
+    margin: 13px 7px 13px 13px;
+    color: #707070;
+    font-weight: bold;
+    font-size: 20px;
+    background-image: url("../img/input.png");
+}
+
+input.button {
+    width: 111px;
+    height: 56px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    color: #707070;
+    font-size: 14px;
+    background: no-repeat url("../img/button.png");
+}
