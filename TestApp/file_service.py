@@ -36,3 +36,16 @@ def uploadfile(request):
         for chunk in f.chunks():
             dest.write(chunk)
     return JsonResponse({"loaded": 3, "fname": str(f)}) #any num for [loaded] by far
+
+@login_required
+def resLib(request):
+    username = request.user.username
+    save_path = os.path.join(os.path.dirname(__file__),
+                             '../static/data', username, 'res')
+    file_lst = os.listdir(save_path)
+    fnames = []
+    for f in file_lst:
+        fnames.append(f)
+    t = get_template('res_lib.html')
+    c = RequestContext(request, {"username":username, "fnames": fnames})
+    return HttpResponse(t.render(c))

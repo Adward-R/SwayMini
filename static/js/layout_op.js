@@ -40,21 +40,6 @@ function unlightRow(row_id) {
     }
 }
 
-function changeContent(col_id) {
-    box_clicked = document.getElementById(col_id);
-    document.getElementById("modal_content").value = box_clicked.innerHTML.trim().replace("<p>","").replace("</p>","");
-    $("#myModal").modal({backdrop:true},{keyboard:true});
-}
-
-function writeContent() {
-    var box_content = document.getElementById("modal_content").value;
-    if (box_content==''||box_content==' ') {}
-    else {
-        box_clicked.innerHTML = box_content;
-    }
-    box_clicked = null;
-}
-
 function addRowModal() {
     document.getElementById("col_ratio").value = "3:4:5";
     $("#addRowModal").modal({backdrop:true},{keyboard:true});

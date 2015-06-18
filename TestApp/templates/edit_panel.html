@@ -103,7 +103,7 @@
                     <a href="#uploadModal" data-toggle="modal" role="button" class="btn">Upload File</a>
                 </li>
                 <li> <!-- Fourth Top Level Toggle (button): Mute -->
-                    <a href="#muteChanges" role="button" class="btn" onclick="toggleMute()">Mute Changes</a>
+                    <a href="#" role="button" class="btn" onclick="toggleMute()">Mute Changes</a>
                 </li>
             </ul>
         </div>
@@ -119,35 +119,6 @@
 </div><!-- /.workingArea -->
 
 {% if isEditMode %}
-
-    <!-- 更改文本内容的模态框（Modal） -->
-    <div style="display: none;" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        ×
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        更改文本
-                    </h4>
-                </div>
-                <form role="form">
-                    <div class="form-group">
-                        <label for="modal_content">Content</label>
-                        <input class="form-control" id="modal_content" placeholder="Please Input the Text" type="text">
-                    </div>
-                </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
-                    </button>
-                    <button type="button" class="btn btn-primary" onclick="writeContent()" data-dismiss="modal">
-                        Okay
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
     <!-- 提示输入行内列宽比的模态框（Modal） -->
     <div style="display: none;" class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-labelledby="addRowModalLabel" aria-hidden="true">
