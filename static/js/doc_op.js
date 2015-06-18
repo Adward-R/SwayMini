@@ -3,7 +3,6 @@
  */
 
 function docSave(doc_id) {
-    document.getElementById("js_info").innerHTML = "Changed body...";
     //var htmlstring = document.documentElement.outerHTML;
     var htmlstring = document.getElementById("workingArea").outerHTML;
     var s_len = htmlstring.length;

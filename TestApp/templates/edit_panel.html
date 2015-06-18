@@ -67,8 +67,9 @@
         <div>
             <ul class="nav navbar-nav navbar-right"  style="margin-right: 0px">
                 <li>
+                    <!-- auto save when exiting-->
                     <a href="#" id="userName"
-                       onclick="document.showframe.location.href='#'">{{ username }}
+                       onclick="backHome({{ doc_id }})">{{ username }}
                     </a>
                 </li>
             </ul>
@@ -87,7 +88,6 @@
                         {% endif %}
                         <li><a onclick="docRollback({{ doc_id }})"> ROLLBACK </a></li>
                         <li><a onclick="docDelete({{ doc_id }})"> DELETE </a></li>
-                        <li><a onclick="backHome({{ doc_id }})"> HOME </a></li> <!-- auto save when exiting-->
                     </ul>
                 </li>
                 <!-- TODO: Multi Level Toggle Dropdown Menu-->
@@ -108,17 +108,6 @@
             </ul>
         </div>
     </nav>
-{% endif %}
-
-<div class="container" id="workingArea">
-    <p id="js_info">Changed body...</p>
-    <div class="container" id="gridContent">
-
-    </div>
-
-</div><!-- /.workingArea -->
-
-{% if isEditMode %}
 
     <!-- 提示输入行内列宽比的模态框（Modal） -->
     <div style="display: none;" class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-labelledby="addRowModalLabel" aria-hidden="true">
@@ -132,12 +121,14 @@
                         输入该行列宽比
                     </h4>
                 </div>
-                <form role="form">
-                    <div class="form-group">
-                        <label for="col_ratio">每一项是整数，以冒号隔开，和为12</label>
-                        <input class="form-control" id="col_ratio" placeholder="3:4:5" type="text">
-                    </div>
-                </form>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="col_ratio">每一项是整数，以冒号隔开，和为12</label>
+                            <input class="form-control" id="col_ratio" placeholder="3:4:5" type="text">
+                        </div>
+                    </form>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
                     </button>
@@ -255,7 +246,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.insAudioModal -->
 
-     <!-- modal for video insertion -->
+    <!-- modal for video insertion -->
     <div style="display: none;" class="modal fade" id="insVideoModal" tabindex="-1" role="dialog" aria-labelledby="insVideoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -318,15 +309,23 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.insTextModal -->
 
-    <br/>
+{% endif %}
+
+<br/>
+<div class="container" id="workingArea" align="center">
+    <h2><span class="label label-success" id="docTitle">{{ docName }}</span></h2>
+    <div class="container" id="gridContent">
+
+    </div>
+</div><!-- /.workingArea -->
+
+{% if isEditMode %}
+    <br/><br/>
     <div class="container" align="center">
-        <div class="btn-group">
-            <a class="btn btn-info btn-md" href="#" id="addRowButton" onclick="addRowModal()">
-                Add a row at bottom
-            </a>
+        <div class="alert alert-success" role="alert" id="addRowButton" onclick="addRowModal()">
+            Add a row at bottom
         </div>
     </div>
-
 {% endif %}
 
 </body>

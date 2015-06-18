@@ -36,8 +36,16 @@ function highlightRow(row_id) {
 function unlightRow(row_id) {
     cols = $("#"+row_id).children();
     for (var i=0; i<cols.length; i++) {
-        $(cols.get(i)).css("background-color", "#cccccc"); //white
+        $(cols.get(i)).css("background-color", "#ffffff"); //white
     }
+}
+
+function highlightCol(col_id) {
+    $("#"+col_id).css("background-color", "#c0c0c0"); //light grey
+}
+
+function unlightCol(col_id) {
+    $("#"+col_id).css("background-color", "#ffffff"); //white
 }
 
 function addRowModal() {
@@ -77,14 +85,15 @@ function addRow() {
         col_id = "0-"+row_id+"-colno-"+idx;
         //first digit of col_id indicates its content type, default 0
         //0 for text, 1 for image, 2 for audio, 3 for video, 4 for carousel
-        var new_col = $("<div>New comer!!!</div>")
+        var new_col = $("<div><br/><br/><br/></div>")
             .attr("class", "col-xs-"+col_ratio[idx]+" col-sm-"+col_ratio[idx])
             //TODO: match different screen sizes
             .attr("id", col_id)
             .attr("onclick", "insContent('"+col_id+"')")//TODO: when click on col blocks
-            .css("background-color", "#cccccc") //light grey
+            .attr("onmouseover", "highlightCol('"+col_id+"')")
+            .attr("onmouseout", "unlightCol('"+col_id+"')")
+            .css("background-color", "#ffffff"); //white
             //.css("box-shadow", "inset 1px -1px 1px #444, inset -1px 1px 1px #444")
-            .text("default text");
         $("#"+row_id).append(new_col);
     }
     //now col_id contains last col's id
@@ -202,7 +211,10 @@ function insImage() {
         new_block_id = '1' + block_id.substring(1, block_id.length);
         $("#"+block_id)
             .attr({"id": new_block_id,
-                    "onclick": "insContent('"+new_block_id+"')"});
+                    "onclick": "insContent('"+new_block_id+"')",
+                    "onmouseover": "highlightCol('"+new_block_id+"')",
+                    "onmouseout": "unlightCol('"+new_block_id+"')"
+            });
         block_id = new_block_id;
         $("#imgLink").val("http://");
     }
@@ -258,8 +270,12 @@ function insAudio() {
     if (block_id[0]!='2') { //was not audio type
         new_block_id = '2' + block_id.substring(1, block_id.length);
         $("#"+block_id)
-            .attr({"id": new_block_id,
-                    "onclick": "insContent('"+new_block_id+"')"});
+            .attr({
+                "id": new_block_id,
+                "onclick": "insContent('" + new_block_id + "')",
+                "onmouseover": "highlightCol('" + new_block_id + "')",
+                "onmouseout": "unlightCol('" + new_block_id + "')"
+            });
         block_id = new_block_id;
         $("#audioLink").val("http://");
     }
@@ -319,8 +335,12 @@ function insVideo() {
     if (block_id[0]!='3') { //was not video type
         new_block_id = '3' + block_id.substring(1, block_id.length);
         $("#"+block_id)
-            .attr({"id": new_block_id,
-                    "onclick": "insContent('"+new_block_id+"')"});
+            .attr({
+                "id": new_block_id,
+                "onclick": "insContent('" + new_block_id + "')",
+                "onmouseover": "highlightCol('" + new_block_id + "')",
+                "onmouseout": "unlightCol('" + new_block_id + "')"
+            });
         block_id = new_block_id;
         $("#videoLink").val("http://");
     }

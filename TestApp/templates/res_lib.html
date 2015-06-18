@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="../../static/css/index.css" >
 
     <style>
+
         .center-1 {
             margin:auto;
             width:30%;
@@ -64,8 +65,7 @@
     <div>
         <ul class="nav navbar-nav navbar-right"  style="margin-right: 0px">
             <li>
-                <a href="#" id="userName"
-                   onclick="document.showframe.location.href='#'">{{ username }}
+                <a href="/home/" id="userName">{{ username }}
                 </a>
             </li>
         </ul>
@@ -175,8 +175,13 @@
                 }
             }
             loadingBlockNum++;
-            var filename = $("<div><p>{{ f }}</p></div>");
-            block.append(filename); //TODO: too ugly
+            var fname = "{{ f }}";
+            var h3span = $("<h3><span class=\"label label-info\">"+fname+"</span></h3>");
+            var filename = $("<div></div>");
+            filename.attr("class", "container");
+            filename.attr("align", "center");
+            filename.append(h3span);
+            block.append(filename);
         });
     {% endfor %}
 

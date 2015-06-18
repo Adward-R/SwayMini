@@ -1,3 +1,12 @@
 
-    </body>
+{% if isEditMode %}
+    <br/><br/>
+    <div class="container" align="center">
+        <div class="alert alert-success" role="alert" id="addRowButton" onclick="addRowModal()">
+            Add a row at bottom
+        </div>
+    </div>
+{% endif %}
+
+</body>
 </html>

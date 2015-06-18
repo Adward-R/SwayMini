@@ -35,7 +35,7 @@ def new_doc(request):
     shutil.copy(os.path.join(os.path.dirname(__file__), 'templates', 'edit_panel.html'),
                 os.path.join(doc_path, 'latest.html'))
     #insert the record into database
-    db_insert = Published(doc_id=_doc_id, doc_name="TestDoc", username=request.user.username)
+    db_insert = Published(doc_id=_doc_id, doc_name=request.POST['fname'], username=request.user.username)
     db_insert.save()
 
     return HttpResponseRedirect('../edit/'+_doc_id+'/')
@@ -46,11 +46,14 @@ def test_edit_panel(request):
 @login_required
 def edit(request, doc_id="0000000000"):
     isPublic = Published.objects.get(doc_id=doc_id).isPublic
+    docName = Published.objects.get(doc_id=doc_id).doc_name
     username = request.user.username
     doc_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                             'static/data/', username, doc_id)
     t = get_template(os.path.join(doc_path, 'latest.html'))
-    c = RequestContext(request, {"isEditMode": 1, "doc_id": doc_id, "username": username, "isPublic": isPublic})
+    c = RequestContext(request,
+                       {"isEditMode": 1, "doc_id": doc_id, "username": username,
+                        "isPublic": isPublic, "docName": docName})
     return HttpResponse(t.render(c))
 
 def show(request, doc_id="0000000000"):
@@ -89,11 +92,12 @@ def save(request, doc_id="00000000000"): #11 bits, 10+1 ctrl
         fa.write(str(request.POST["sub_s"]))
         fa.write("\n    </body>\n</html>")
 
-    if int(doc_id[-1]==2): #end section
+    #if int(doc_id[-1])==2: #end section
+    if True:
         panel_foot_path = os.path.join('TestApp', 'templates', 'panel_foot.html')
         with open(latest_path, 'a', encoding='utf-8') as dest:
             with open(panel_foot_path, encoding='utf-8') as src:
-                shutil.copyfileobj(src, dest) #TODO: copyfileobj does not work
+                shutil.copyfileobj(src, dest)
     return HttpResponse("") #TODO: multi html code page POST transfer and re-org
 
 @login_required
