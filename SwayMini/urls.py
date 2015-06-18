@@ -38,4 +38,5 @@ urlpatterns = [
     url(r'^unpublish/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.unpublish'),
     url(r'^rollback/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.rollback'),
     url(r'^delete/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.delete'),
+    url(r'^upload_file/$', 'TestApp.file_service.uploadfile'),
 ]
