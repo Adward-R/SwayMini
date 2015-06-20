@@ -11,33 +11,84 @@
 
 <style>
     body {
-        font: 15px sans-serif;
+        font: 20px sans-serif;
+        overflow: hidden;
     }
     .container {
-        padding-right: 15px;
-        padding-left: 15px;
+        padding: 20%;
+        padding-top: 15%;
         margin-right: auto;
         margin-left: auto;
+        align-content: center;
     }
+
+    .container form {
+        padding: 10%;
+        padding-right: 5%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        align-content: center;
+    }
+
+    .signin-bg {
+        background-image: url('../static/img/bg/{{ bgFileName }}/');
+        background-position: 50% 50%;
+    }
+
+    .fieldWrapper {
+        margin: auto;
+        padding: 5%;
+    }
+
 </style>
 
-<body>
-    <div class="container">
-        <form role="form" action="../signed_in/" method="post">
-            <div class="form-group">
+<body class="signin-bg">
+<div class="container">
+    <div class="panel panel-info" style="opacity: 0.8">
+        <div class="panel panel-heading" align="center">
+            登录SwayMini
+        </div>
+        <div class="panel-body">
+
+            <!--<div class="form-group">
                 <label for="name">用户名</label>
                 <input type="text" class="form-control" name="username"
-                    placeholder="Your user name here...">
+                       placeholder="Your user name here...">
             </div>
             <div class="form-group">
                 <label for="passwd">密码</label>
                 <input type="text" class="form-control" name="passwd"
-                    placeholder="Your password here...">
+                       placeholder="Your password here...">
+            </div> -->
+            <div class="form-group" style="width: 100%;">
+                <form role="form" action="../signed_in/" method="post">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">@用户名</span>
+                        {{ form.username }}
+                    </div>
+                    {% if form.username.errors %}
+                        <div class="alert alert-danger">
+                            {{ form.username.errors }}
+                        </div>
+                    {% endif %}
+                    <br/>
+
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">#密码</span>
+                        {{ form.passwd }}
+                    </div>
+                    {% if form.passwd.errors %}
+                        <div class="alert alert-danger">
+                            {{ form.passwd.errors }}
+                        </div>
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-default">登录</button>
+                </form>
             </div>
-            <p class="help-block">登录SwayMini 0.0</p>
-            <button type="submit" class="btn btn-default">提交</button>
-        </form>
+        </div>
     </div>
+</div>
 
 </body>
 </html>
