@@ -15,6 +15,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import time
 from django import forms
+from django.forms.util import ErrorList
 
 from TestApp.models import Published
 
@@ -22,20 +23,25 @@ class SigninForm(forms.Form):
     username = forms.CharField(max_length=20)
     passwd = forms.CharField(max_length=20)
 
-    def clean_username(self):
-        _username = self.cleaned_data['username']
-        if not User.objects.filter(username=_username):
-            raise forms.ValidationError('用户不存在')
-        return _username
+#    def clean_username(self):
+ #       _username = self.cleaned_data['username']
+  #      if not User.objects.filter(username=_username):
+   #         raise forms.ValidationError('用户不存在')
+    #    return _username
 
     def clean(self):
         cleaned_data = super(SigninForm, self).clean()
         _username = cleaned_data.get('username', '')
         _passwd = cleaned_data.get('passwd', '')
-        user = authenticate(username=_username, password=_passwd)
-        if user is None:
-            raise forms.ValidationError('密码错误')
-            #TODO: no passwd wrong info
+        if not User.objects.filter(username=_username):
+            error_msg = ["用户不存在！"]
+            super(SigninForm, self).errors['passwd'] = ErrorList(error_msg)
+        else:
+            user = authenticate(username=_username, password=_passwd)
+            if user is None:
+                error_msg = ["密码错误!"]
+                super(SigninForm, self).errors['passwd'] = ErrorList(error_msg)
+                #raise forms.ValidationError('密码错误')
         return cleaned_data
 
 def signup(request):

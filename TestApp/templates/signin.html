@@ -62,9 +62,9 @@
             </div> -->
             <div class="form-group" style="width: 100%;">
                 <form role="form" action="../signed_in/" method="post">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-addon">@用户名</span>
-                        {{ form.username }}
+                    <div class="input-group input-group-lg" style="padding-right: 5%">
+                        <span class="input-group-addon">用户名</span>
+                            {{ form.username }}
                     </div>
                     {% if form.username.errors %}
                         <div class="alert alert-danger">
@@ -73,8 +73,8 @@
                     {% endif %}
                     <br/>
 
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-addon">#密码</span>
+                    <div class="input-group input-group-lg" style="padding-right: 5%">
+                        <span class="input-group-addon"> 密 码</span>
                         {{ form.passwd }}
                     </div>
                     {% if form.passwd.errors %}
@@ -83,7 +83,10 @@
                         </div>
                     {% endif %}
 
-                    <button type="submit" class="btn btn-default">登录</button>
+                    <br/>
+                    <div class="btn-group-lg" align="center">
+                        <button type="submit" class="btn btn-default">登录</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -92,3 +95,9 @@
 
 </body>
 </html>
+
+    <script>
+        //make the size of django-rendered forms suits form-control
+        $("#id_username").attr("class", "form-control");
+        $("#id_passwd").attr("class", "form-control");
+    </script>
