@@ -5,3 +5,4 @@ lib/
 include/
 pip-selfcheck.json
 #*#
+static/data/
