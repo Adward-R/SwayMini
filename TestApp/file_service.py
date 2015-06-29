@@ -42,6 +42,8 @@ def resLib(request):
     username = request.user.username
     save_path = os.path.join(os.path.dirname(__file__),
                              '../static/data', username, 'res')
+    if not os.path.exists(save_path):
+        os.mkdir(save_path)
     file_lst = os.listdir(save_path)
     fnames = []
     for f in file_lst:

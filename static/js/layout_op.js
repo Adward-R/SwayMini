@@ -81,12 +81,17 @@ function addRow() {
     $("#gridContent").append(new_row);
 
     var col_id = "";
+    var width_so_far = 0;
     for (var idx=0; idx<col_ratio.length; idx++) {
+        if (width_so_far <= 6 && width_so_far+col_ratio[idx] > 6 ) {
+            //put in next line when display on xs-devices
+            $("#"+row_id).append($("<div class=\"clearfix visible-xs\"></div>"));
+        }
+        width_so_far += col_ratio[idx];
         col_id = "0-"+row_id+"-colno-"+idx;
         //first digit of col_id indicates its content type, default 0
         //0 for text, 1 for image, 2 for audio, 3 for video, 4 for carousel
         var new_col = $("<div><br/><br/><br/></div>")
-            .attr("class", "col-xs-"+col_ratio[idx]+" col-sm-"+col_ratio[idx])
             //TODO: match different screen sizes
             .attr("id", col_id)
             .attr("onclick", "insContent('"+col_id+"')")//TODO: when click on col blocks
@@ -94,6 +99,8 @@ function addRow() {
             .attr("onmouseout", "unlightCol('"+col_id+"')")
             .css("background-color", "#ffffff"); //white
             //.css("box-shadow", "inset 1px -1px 1px #444, inset -1px 1px 1px #444")
+        var xs_layout_width = (col_ratio[idx]*2 > 12) ? 12 : (col_ratio[idx]*2);
+        new_col.attr("class", "col-xs-"+xs_layout_width+" col-md-"+col_ratio[idx]);
         $("#"+row_id).append(new_col);
     }
     //now col_id contains last col's id

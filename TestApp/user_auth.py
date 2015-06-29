@@ -21,7 +21,7 @@ from TestApp.models import Published
 
 class SigninForm(forms.Form):
     username = forms.CharField(max_length=20)
-    passwd = forms.CharField(max_length=20)
+    passwd = forms.CharField(max_length=20, min_length=6)
 
 #    def clean_username(self):
  #       _username = self.cleaned_data['username']
@@ -44,17 +44,49 @@ class SigninForm(forms.Form):
                 #raise forms.ValidationError('密码错误')
         return cleaned_data
 
+class SignupForm(forms.Form):
+    username = forms.CharField(max_length=20)
+    passwd = forms.CharField(max_length=20, min_length=6)
+    repasswd = forms.CharField(max_length=20, min_length=6)
+
+    def clean(self):
+        cleaned_data = super(SignupForm, self).clean()
+        _username = cleaned_data.get('username', '')
+        _passwd = cleaned_data.get('passwd', '')
+        _repasswd = cleaned_data.get('repasswd', '')
+        if User.objects.filter(username=_username):
+            error_msg = ["该用户名已存在"]
+            super(SignupForm, self).errors['passwd'] = ErrorList(error_msg)
+        else:
+            if _passwd != _repasswd:
+                error_msg = ["两次输入密码不一致!"]
+                super(SignupForm, self).errors['passwd'] = ErrorList(error_msg)
+        return cleaned_data
+
 def signup(request):
-    return render(request, 'signup.html')
+    form = SignupForm()
+    t = get_template('signup.html')
+    c = RequestContext(request, {"form": form})
+    return HttpResponse(t.render(c))
 
 def signed_up(request):
-    _username = request.POST['username']
-    _passwd = request.POST['passwd']
-    User.objects.create_user(username=_username, password=_passwd)
-    t = get_template('home.html')
-    user = authenticate(username=_username, password=_passwd)
-    login(request, user)
-    return HttpResponseRedirect('../home', t.render())
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+    else:
+        form = SignupForm()
+
+    if form.is_valid():
+        _username = form.cleaned_data['username']
+        _passwd = form.cleaned_data['passwd']
+        User.objects.create_user(username=_username, password=_passwd)
+        user = authenticate(username=_username, password=_passwd)
+        login(request, user)
+        return HttpResponseRedirect('../home')
+
+    t = get_template('signup.html')
+    c = RequestContext(request, {'form': form})
+    return HttpResponse(t.render(c))
+
 
 def signin(request):
     bg_path = os.path.join(os.path.dirname(__file__), '../static/img/bg/')
