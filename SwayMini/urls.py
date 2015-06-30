@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^test_back/$', 'TestApp.demo_views.test_back'),
     url(r'^test_front/$', 'TestApp.demo_views.test_front'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'TestApp.user_auth.startup'),
     url(r'^signup/', 'TestApp.user_auth.signup'),
     url(r'^signin/', 'TestApp.user_auth.signin'),
     url(r'^signed_up/', 'TestApp.user_auth.signed_up'),
@@ -40,4 +41,5 @@ urlpatterns = [
     url(r'^delete/(?P<doc_id>[0-9]{10})/$', 'TestApp.doc_op.delete'),
     url(r'^upload_file/$', 'TestApp.file_service.uploadfile'),
     url(r'^res_lib/$', 'TestApp.file_service.resLib'),
+    url(r'^show_lib/$', 'TestApp.file_service.showLib'),
 ]

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = 'Adward'
 
 from django.http import HttpResponse, Http404
@@ -51,3 +52,7 @@ def resLib(request):
     t = get_template('res_lib.html')
     c = RequestContext(request, {"username":username, "fnames": fnames})
     return HttpResponse(t.render(c))
+
+def showLib(request):
+    pub_lst = Published.objects.filter(isPublic=True)
+    return render_to_response('show_lib.html', {"pub_lst": pub_lst})

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = 'Adward'
 
 from django.http import HttpResponse, Http404

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 __author__ = 'Adward'
 
 from django.http import HttpResponse
@@ -22,12 +24,6 @@ from TestApp.models import Published
 class SigninForm(forms.Form):
     username = forms.CharField(max_length=20)
     passwd = forms.CharField(max_length=20, min_length=6)
-
-#    def clean_username(self):
- #       _username = self.cleaned_data['username']
-  #      if not User.objects.filter(username=_username):
-   #         raise forms.ValidationError('用户不存在')
-    #    return _username
 
     def clean(self):
         cleaned_data = super(SigninForm, self).clean()
@@ -62,6 +58,9 @@ class SignupForm(forms.Form):
                 error_msg = ["两次输入密码不一致!"]
                 super(SignupForm, self).errors['passwd'] = ErrorList(error_msg)
         return cleaned_data
+
+def startup(request):
+    return HttpResponseRedirect('../signin/')
 
 def signup(request):
     form = SignupForm()
