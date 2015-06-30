@@ -5,6 +5,8 @@
 var new_row_num = 0;
 var box_clicked = null;
 var block_id = null;
+var currentCarouselPage = 0;
+
 /*when chContentMute is true, clicking the blocks cannot change their contents;
     this is for control or test html5 audio/video controllers
  */
@@ -123,7 +125,7 @@ function insContent(col_id) {
     if (chContentMute) {
         return;
     }
-    for (var idx=0; idx<4; idx++) {
+    for (var idx=0; idx<5; idx++) {
         if (idx==col_id[0]) {
             $("#colType" + idx).attr("class", "active"); //highlight pre-chosen type
         }
@@ -143,6 +145,7 @@ function insContentBranch(colType) {
         case 1: insImage();break;
         case 2: insAudio();break;
         case 3: insVideo();break;
+        case 4: insCarousel();break;
         default :;
     }
 }
@@ -399,6 +402,112 @@ function chVideo() {
             block_id = null;
         }
     }
+}
+
+
+function insCarousel() {
+    if (block_id[0]!='4') { //was not carousel type
+        new_block_id = '4' + block_id.substring(1, block_id.length);
+        $("#"+block_id)
+            .attr({"id": new_block_id,
+                    "onclick": "insContent('"+new_block_id+"')",
+                    "onmouseover": "highlightCol('"+new_block_id+"')",
+                    "onmouseout": "unlightCol('"+new_block_id+"')"
+            });
+        block_id = new_block_id;
+        $("#carLink").val("http://");
+    }
+    else {
+        //$("#imgLink").val($("#" + block_id).text().attr("src"));
+    }
+    $("#insCarouselModal").modal({backdrop:true},{keyboard:true}); //show modal
+}
+
+function chCarousel() {
+    var isChecked = false;
+    var src = "";
+    var caption = $("#carCaption").val().trim();
+    $("#carCaption").val("");
+    var inputs = $("#carLink").val().trim();
+    $("#carLink").val("");
+    if (inputs == "") {
+        alert("Empty src!");
+        return;
+    } //legal cmp??
+
+    if (document.getElementById("carSrcExtern").checked) {
+        isChecked = true;
+        src = inputs;
+    }
+    else if (document.getElementById("carSrcLocal").checked) {
+        isChecked = true;
+        username = document.getElementById("userName").innerHTML.trim();
+        src = "../../static/data/" + username + "/res/" + inputs + "/";
+    }
+
+    if (!isChecked) {
+        alert("You must choose one url src type!");
+    }
+    else {
+        //legal src get
+        var imgFormat = checkFormat(src, 1);
+        if (imgFormat == ".") {
+            alert("Image must be .jpg/.jpeg, .gif or .png!");
+        }
+        else {
+            var block = $("#" + block_id);
+            //begin carousel init
+            if (currentCarouselPage==0) {
+                block.empty();
+                var carIndicators = $("<ol></ol>")
+                    .attr({"class": "carousel-indicators", "id": block_id+"-carIndicator"});
+                var carInner = $("<div class=\"carousel-inner\" role=\"listbox\"></div>")
+                    .attr({"id": block_id+"-carInner"});
+                var carousel = $("<div class=\"carousel slide\" data-ride=\"carousel\">")
+                    .attr({"id": block_id+"-car"});
+                var carCtrl = $("<a class=\"left carousel-control\" href=\"#"+block_id+"-car\" " +
+                                    "role=\"button\" data-slide=\"prev\"> " +
+                                    "<span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span> " +
+                                    "<span class=\"sr-only\">Previous</span> " +
+                                "</a> " +
+                                "<a class=\"right carousel-control\" href=\"#"+block_id+"-car\" " +
+                                    "role=\"button\" data-slide=\"next\"> " +
+                                    "<span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span> " +
+                                    "<span class=\"sr-only\">Next</span> " +
+                                "</a>");
+                carousel.append(carIndicators);
+                carousel.append(carInner);
+                carousel.append(carCtrl);
+                block.append(carousel);
+            }
+            //carousel init done
+            var indi = $("<li></li>")
+                .attr({"data-target": "#"+block_id+"-carIndicator",
+                        "data-slide-to": currentCarouselPage});
+            if (currentCarouselPage==0) {
+                indi.attr("class", "active");
+            }
+            $("#"+block_id+"-carIndicator").append(indi);
+            var itm = $("<div class=\"item\"></div>");
+            if (currentCarouselPage==0) {
+                itm.attr("class", "item active");
+            }
+            var img = $("<img src=\"" + src + "\" class=\"img-responsive img-rounded\">");
+            var cap = $("<div class=\"carousel-caption\">"+caption+"</div>");
+            itm.append(img);
+            itm.append(cap);
+            $("#"+block_id+"-carInner").append(itm);
+            //block_id = null;
+            currentCarouselPage += 1;
+        }
+    }
+}
+
+function doneCarousel() {
+    chCarousel();
+    $("#insImgModal").modal('hide');
+    block_id = null;
+    currentCarouselPage = 0;
 }
 
 //end of content-insertion func

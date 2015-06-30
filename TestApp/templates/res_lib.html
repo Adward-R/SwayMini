@@ -176,12 +176,12 @@
             }
             loadingBlockNum++;
             var fname = "{{ f }}";
-            var h3span = $("<h3><span class=\"label label-info\">"+fname+"</span></h3>");
-            var filename = $("<div></div>");
-            filename.attr("class", "container");
-            filename.attr("align", "center");
-            filename.append(h3span);
-            block.append(filename);
+            var h4span = $("<h4><span class=\"label label-info\">"+fname+"</span></h4>");
+            //var filename = $("<div></div>");
+            //filename.attr("class", "container");
+            //filename.attr("align", "center");
+            //filename.append(h3span);
+            block.append(h4span);
         });
     {% endfor %}
 
