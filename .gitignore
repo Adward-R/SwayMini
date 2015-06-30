@@ -5,4 +5,8 @@ lib/
 include/
 pip-selfcheck.json
 #*#
-static/data/
+SwayMini/static/data/
+
+*.sqlite3
+
+SwayMini/.idea/*
