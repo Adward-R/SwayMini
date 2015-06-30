@@ -1,0 +1,7 @@
+archive
+node_modules
+bin/
+lib/
+include/
+pip-selfcheck.json
+#*#
