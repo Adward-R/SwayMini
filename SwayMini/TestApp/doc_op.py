@@ -25,7 +25,7 @@ from TestApp.json2html import json2html
 @login_required
 def new_doc(request):
     data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                            'static/data/')
+                             'static/data/')
     user_path = os.path.join(data_path, request.user.username)
     if not os.path.exists(user_path):
         os.mkdir(user_path)
@@ -70,7 +70,7 @@ def show(request, doc_id="0000000000"):
     else: #normally show the published doc
         author = record.username
         #doc_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-         #                   'static/data/', author, doc_id)
+        #                   'static/data/', author, doc_id)
         t = get_template(author+'/'+doc_id+'/latest.html')
         #c = RequestContext(request, {"isEditMode": 0})
         return HttpResponse(t.render())
@@ -131,14 +131,14 @@ def rollback(request, doc_id="0000000000"):
     else: #has prev ver, implements rolling back operation
         os.remove(latest_path)
         os.rename(prev_path, latest_path)
-        t = get_template(
-                        os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                     'static/data/',
-                                     request.user.username,
-                                     doc_id,
-                                     'latest.html'
-                        )
-        )
+    t = get_template(
+        os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                     'static/data/',
+                     request.user.username,
+                     doc_id,
+                     'latest.html'
+                     )
+    )
     #TODO: use a context variable to indicate it is already the oldest ver to user
     return HttpResponseRedirect("/edit/"+doc_id+"/", t.render())
 
